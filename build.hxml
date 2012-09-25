@@ -1,0 +1,9 @@
+-php C:\wamp\www
+-cp c:\src\blox\src
+-main Engine
+
+-lib ufront
+-lib thx 
+-lib autoform
+
+-D spod_macro 

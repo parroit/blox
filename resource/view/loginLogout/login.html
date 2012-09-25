@@ -1,0 +1,21 @@
+@wrap("../layout","content")
+
+
+<div class="row">
+  
+    <div id="login" class="span5 bs-docs-example" style="height:290px;padding-top:90px;">
+        @Form.bootstrapRender(form,"/dologin",
+			'<input type="submit", class="btn btn-large btn-success", value="Login" style="position:absolute;top:340px"/>'
+    	)
+    </div>
+    
+    <div class="span1" style="padding-top:200px"><span>&nbsp;or&nbsp;</span></div>
+
+    <div id="register" class="span5 bs-docs-example" style="height:290px;padding-top:90px;">
+        @Form.bootstrapRender(registerForm,"/register",
+			'<input type="submit", class="btn btn-info", value="Register" style="position:absolute;top:340px"/>'
+    	)
+    </div>
+
+  
+</div>

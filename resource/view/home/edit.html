@@ -1,0 +1,36 @@
+@wrap("../layout","content")
+
+<div class="row">
+    <h2>Edit user @Html.encode(user.name)</h2>
+</div>
+
+<div class="row">&nbsp;</div>
+
+<div class="row">
+    <form name="edit-user" action='/save/@Url.encode(Html.encode(str.replace(user.name,"/","£")))' class="well form-horizontal" method="POST">
+        <fieldset>
+
+
+            <div class="control-group">
+                <label class='control-label' for='name'>Username</label>
+
+                <div class="controls">
+                    <input type="text" name="name" id="name" value='@Html.attributeEncode(user.name)'/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class='control-label' for='name'>Password</label>
+
+                <div class="controls">
+                    <input type="text" name="password" id="password" value='@Html.attributeEncode(user.password)'/>
+                </div>
+            </div>
+
+        </fieldset>
+        <input class="btn btn-success btn-large" type="submit" value="Save"/>
+        <a class="btn" href="/"><i class="icon-ban-circle"></i> Cancel</a>
+        <a class="btn btn-danger" href='
+        /delete/@Url.encode(Html.encode(str.replace(user.name,"/","£")))'><i class="icon-remove-sign icon-white"></i>
+            Delete</a>
+    </form>
+</div>

@@ -1,0 +1,46 @@
+@wrap("../layout","content")
+
+
+<div class="row">
+    <h2>Users list</h2>
+    <h2>@params</h2>
+</div>
+
+<div class="row">&nbsp;</div>
+
+<div class="row">
+    <div class="btn-group">
+        <a class="btn" href="/edit"><i class="icon-plus-sign"></i> Add</a>
+
+    </div>
+</div>
+<div class="row">&nbsp;</div>
+<div class="row">
+    <table class="table table-bordered table-condensed table-hover">
+        <thead>
+        <tr>
+            <td><h5>Username</h5></td>
+            <td><h5>E-mail</h5></td>
+            <td><h5>Confirmation Id</h5></td>
+            <td>&nbsp;</td>
+        </tr>
+        </thead>
+
+        <tbody>
+        @for(user in users)
+        {
+        <tr>
+
+            <td>@Html.encode(user.name)</td>
+            <td>@Html.encode(user.email)</td>
+            <td>@Html.encode(user.confirmationId)</td>
+            <td>
+                <a class="btn btn-info" href='/edit/@Url.encode(Html.encode(str.replace(user.name,"/","£")))'><i class="icon-edit icon-white"></i> Edit</a>
+                <a class="btn btn-danger" href='/delete/@Url.encode(Html.encode(str.replace(user.name,"/","£")))'><i class="icon-remove-sign icon-white"></i> Delete</a>
+            </td>
+        </tr>
+        }
+
+        </tbody>
+    </table>
+</div>
