@@ -13,7 +13,7 @@ class ValidateUser implements thx.validation.IValidator<Dynamic>{
 	public function validate(user) {
 		var sessionStorage = new ufront.auth.storage.SessionStorage(this.session);
 		var auth = new ufront.auth.Auth(sessionStorage);
-		var dbAuth = new code.DatabaseAuthAdapter(user.name.value, user.password.value);
+		var dbAuth = new code.DatabaseAuthAdapter(user.username.value, user.password.value);
 		var result = auth.authenticate(dbAuth);
 		
 		switch(result.message) {

@@ -31,12 +31,12 @@
         {
         <tr>
 
-            <td>@Html.encode(user.name)</td>
+            <td>@Html.encode(user.username)</td>
             <td>@Html.encode(user.email)</td>
             <td>@Html.encode(user.confirmationId)</td>
             <td>
-                <a class="btn btn-info" href='/edit/@Url.encode(Html.encode(str.replace(user.name,"/","£")))'><i class="icon-edit icon-white"></i> Edit</a>
-                <a class="btn btn-danger" href='/delete/@Url.encode(Html.encode(str.replace(user.name,"/","£")))'><i class="icon-remove-sign icon-white"></i> Delete</a>
+                <a class="btn btn-info" href='/edit/@user.id'><i class="icon-edit icon-white"></i> Edit</a>
+                <a class="btn btn-danger" href='/delete/@user.id'><i class="icon-remove-sign icon-white"></i> Delete</a>
             </td>
         </tr>
         }

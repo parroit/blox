@@ -1,4 +1,11 @@
 package controller;
+import autoform.AutoForm;
+using autoform.Introspection;
+import autoform.Validation;
+import thx.validation.StringLengthValidator;
+import ufront.web.mvc.RedirectResult;
+import ufront.web.mvc.ViewResult;
+import controller.AutoformRequest;
 
 class LoginLogoutController extends ufront.web.mvc.Controller {
 	private static var editForm;
@@ -7,30 +14,22 @@ class LoginLogoutController extends ufront.web.mvc.Controller {
 	public static function __init__() {
 		
 		var newUser = new model.User();
-		editForm = autoform.Reflection.of(new autoform.AutoForm(), Type.getClass(newUser), ["name", "password", "remember"]);
-		registerForm = autoform.Reflection.of(new autoform.AutoForm(), Type.getClass(newUser), ["name", "email"]);
+		editForm = new AutoForm().of(Type.getClass(newUser), ["username", "password", "remember"]);
+		registerForm = new AutoForm().of(Type.getClass(newUser), ["username", "email"]);
 		
-		untyped {
-
-
-			autoform.Validation.addRule(editForm.meta.fields.name, 
-				new thx.validation.StringLengthValidator(1, 100));
-			autoform.Validation.addRule(editForm.meta.fields.password, 
-				new thx.validation.StringLengthValidator(1, 100));
-		
-		
-			autoform.Validation.addRule(registerForm.meta.fields.name, 
-				new thx.validation.StringLengthValidator(1, 100));
-			autoform.Validation.addRule(registerForm.meta.fields.email, 
-				new thx.validation.StringLengthValidator(1, 100));
-		}
+	
 	}
-
+	public function login() {
+		var newUser = new model.User();
+		editForm.fill(newUser);
+		registerForm.fill(newUser);
+		return new ViewResult( {form : editForm, registerForm : registerForm});
+	}
 	public function dologout() {
 		var session = this.controllerContext.httpContext.session;
 		session.setLifeTime(0);
 		session.clear();
-		return new ufront.web.mvc.RedirectResult("/");
+		return new RedirectResult("/");
 	}
 	public function register() {
 		controller.AutoformRequest.fillFromRequest(registerForm, this.controllerContext.request);
@@ -44,13 +43,13 @@ class LoginLogoutController extends ufront.web.mvc.Controller {
 			var host = code.Config.vars.web.host;
 			var message = "<html><body>                    
 				<p>
-				Dear ${newUser.name}<br/>
+				Dear ${newUser.username}<br/>
 				Welcome to <strong>Blox</strong> and thank you for your interest in our product!<br/>                    
 				Your registration was successful. Please, keep this mail for future reference.                     
 				</p>                    
 				<p>                    
 				Your login data:<br/><br/>                    
-				User name: ${newUser.name}<br/>
+				User name: ${newUser.username}<br/>
 				Password:  ${newUser.password}<br/></p>
 				In order to login to Blox site you have to confirm your mail address.<br/>                                        
 				<a href='@{host}confirm/${newUser.confirmationId}''>
@@ -84,8 +83,10 @@ class LoginLogoutController extends ufront.web.mvc.Controller {
 
 	public function dologin() {
 		var session = this.controllerContext.httpContext.session;
-		autoform.Validation.addFormRule(editForm, new controller.ValidateUser(session));
-		controller.AutoformRequest.fillFromRequest(editForm, this.controllerContext.request);
+		
+		Validation.addFormRule(editForm, new controller.ValidateUser(session));
+		AutoformRequest.fillFromRequest(editForm, this.controllerContext.request);
+		
 		var result:ufront.web.mvc.ActionResult = null;
 		if(editForm.data.fields.remember.value) {
 			var lifetime = 10*24*60;
@@ -99,11 +100,6 @@ class LoginLogoutController extends ufront.web.mvc.Controller {
 		}
 		return result;
 	}
-	public function login() {
-		var newUser = new model.User();
-		autoform.Reflection.fill(editForm, newUser);
-		autoform.Reflection.fill(registerForm, newUser);
-		return new ufront.web.mvc.ViewResult( {"form" : editForm, "registerForm" : registerForm});
-	}
+	
 	
 }

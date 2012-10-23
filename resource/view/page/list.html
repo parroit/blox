@@ -1,0 +1,45 @@
+@wrap("../layout","content")
+
+
+<div class="row">
+    <h2>Pages list</h2>
+    
+</div>
+
+<div class="row">&nbsp;</div>
+
+<div class="row">
+    <div class="btn-group">
+        <a class="btn" href="/page/edit/0"><i class="icon-plus-sign"></i> Add</a>
+
+    </div>
+</div>
+<div class="row">&nbsp;</div>
+<div class="row">
+    <table class="table table-bordered table-condensed table-hover">
+        <thead>
+        <tr>
+            <td><h5>Author</h5></td>
+            <td><h5>Title</h5></td>
+            
+            <td>&nbsp;</td>
+        </tr>
+        </thead>
+
+        <tbody>
+        @for(page in data)
+        {
+        <tr>
+
+            <td>@Html.encode(page.myAuthor().username)</td>
+            <td>@Html.encode(page.title)</td>
+             <td>
+                <a class="btn btn-info" href='/page/edit/@page.id'><i class="icon-edit icon-white"></i> Edit</a>
+                <a class="btn btn-danger" href='/page/delete/@page.id'><i class="icon-remove-sign icon-white"></i> Delete</a>
+            </td>
+        </tr>
+        }
+
+        </tbody>
+    </table>
+</div>

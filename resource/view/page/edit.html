@@ -1,0 +1,21 @@
+@wrap("../layout","content")
+
+<script src="/js/ck/ckeditor.js"></script>
+
+<script type="text/javascript">
+    $(window).load(function() {
+        $('#content').wysihtml5();
+    });
+
+</script>
+
+
+@Form.bootstrapRender(editForm,"/page/save/"+key,
+	'<input type="submit" class="btn btn-large btn-success" value="Save"/>
+	'
+)
+
+<a href="/page/list" class="btn" >
+
+	Cancel
+</a>

@@ -11,14 +11,18 @@ class Engine {
 		var routes = new ufront.web.routing.RouteCollection();
 		routes
 		.addRoute("/", {"controller" : "home", "action" : "index"})
-		.addRoute("/edit/{?name}", {"controller" : "home", "action" : "edit"})
-		.addRoute("/save/{?name}", {"controller" : "home", "action" : "save"})
-		.addRoute("/delete/{name}", {"controller" : "home", "action" : "delete"})
+		.addRoute("/edit/{?key}", {"controller" : "home", "action" : "edit"})
+		.addRoute("/save/{?key}", {"controller" : "home", "action" : "save"})
+		.addRoute("/delete/{key}", {"controller" : "home", "action" : "delete"})
 		.addRoute("/login", {"controller" : "loginLogout", "action" : "login"})
 		.addRoute("/dologin", {"controller" : "loginLogout", "action" : "dologin"})
 		.addRoute("/register", {"controller" : "loginLogout", "action" : "register"})
 		.addRoute("/logout", {"controller" : "loginLogout", "action" : "dologout"})
 		.addRoute("/confirm/{id}", {"controller" : "loginLogout", "action" : "confirm"})
+		.addRoute("/page/show/{key}", {"controller" : "page", "action" : "detail"})
+		.addRoute("/page/edit/{key}", {"controller" : "page", "action" : "edit"})
+		.addRoute("/page/save/{key}", {"controller" : "page", "action" : "save"})
+		.addRoute("/page/list", {"controller" : "page", "action" : "list"})
 		.addRoute("/register-successfully", {"controller" : "loginLogout", "action" : "registerSuccessfully"});
 		
 		var model = new Model();

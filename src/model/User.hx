@@ -1,33 +1,44 @@
 package model;
 
-
-@:id(name)
+import sys.db.Types;
+import  introspector.Persistent;
+import  thx.validation.StringLengthValidator;
+@:id(id)
 @:table("users")
-class User extends sys.db.Object,	implements haxe.rtti.Infos{
+class User extends sys.db.Object,	implements Persistent{
 
-	
-	
-	
-	@autoform({"title" : "User name", "description" : "Your account login."})
-	public var name:sys.db.Types.SString<100>;
+    public var id:SInt;
 
-	@autoform({"widget" : "password", "title" : "Password", "description" : "Your account password."})
-	public var password:sys.db.Types.SString<100>;
+	@autoform({
+		"title" : "User name", 
+		"description" : "Your account login."}
+	)
+	public var username:SString<100>;
 
-	@autoform({"title" : "E-mail", "description" : "Your account primary email."})
-	public var email:sys.db.Types.SString<100>;
+	@autoform({
+		"widget" : "password", 
+		"title" : "Password", 
+		"description" : "Your account password.",
+		"validation": "![new thx.validation.StringLengthValidator(1, 100)]"
+	})
+	public var password:SString<100>;
+
+	@autoform({
+		"title" : "E-mail", 
+		"description" : "Your account primary email."
+	})
+	public var email:SString<100>;
 	
 
 	@autoform({
 		"widget" : "checkbox",
-		 "title" : "Remember", 
-		 "description" : "Remember login status."
+		"title" : "Remember", 
+		"description" : "Remember login status."
 	})	
-	public var remember:sys.db.Types.SBool;
+	public var remember:SBool;
 	
 
 
-	public var confirmationId:sys.db.Types.SString<100>;
+	public var confirmationId:SString<100>;
 	
 }
- 
