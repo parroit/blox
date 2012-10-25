@@ -5,5 +5,9 @@
 -lib ufront
 -lib thx 
 -lib autoform
+-lib introspector
+-lib tink_macros
 
--D spod_macro 
+-D spod_macro
+
+-cmd xcopy /Y /E /Q resource C:\wamp\www
