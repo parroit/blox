@@ -1,4 +1,5 @@
 package controller;
+import code.AuthViewResult;
 import ufront.web.mvc.ActionResult;
 import autoform.AutoForm;
 import sys.db.Manager;
@@ -11,12 +12,12 @@ import ufront.web.mvc.RedirectResult;
 
 using controller.AutoformRequest;
 
-class PageController extends Controller {
+class PageController extends AuthorizedController {
 	public function detail(key:Int) {
 		
 		var model:Page = Page.manager.get(key);
 
-		return new ViewResult( {data : model});	
+		return new AuthViewResult(loggedUser, {data : model});
 	}
 	
 	public function list() {
@@ -24,13 +25,13 @@ class PageController extends Controller {
 
 		var models = Page.manager.search($author==loggedUser);
 		
-		return new ViewResult( {data:models});	
+		return new AuthViewResult(loggedUser, {data:models});
 	}
 
 	public function save(key:Int):ActionResult {
 
 		var page = if (key == 0)  null else Page.manager.get(key);
-		var editForm:AutoForm = new AutoForm().of(Page,["title","content"]);
+		var editForm:AutoForm = new AutoForm().of(Page,["title","content","tags","date"]);
 
 		editForm.fillFromRequest(this.controllerContext.request);
         if(autoform.Validation.validate(editForm)) {
@@ -46,7 +47,7 @@ class PageController extends Controller {
             }
             return new RedirectResult("/page/edit/" + key);
         } else {
-            return new ViewResult( {editForm:editForm,key:key});
+            return new AuthViewResult(loggedUser, {editForm:editForm,key:key});
         }
 	}
     public function new(){
@@ -58,7 +59,7 @@ class PageController extends Controller {
 		var model = if (key==0) new Page() else Page.manager.get(key);
 
 
-        var editForm:AutoForm = new AutoForm().of(Page,["title","content"]);
+        var editForm:AutoForm = new AutoForm().of(Page,["title","content","tags","date"]);
 		editForm.fill(model);
 		editForm.meta.fields.content.displayOptions={
 			rows:80,
@@ -72,13 +73,7 @@ class PageController extends Controller {
 
 		
 		
-		return new ViewResult( {editForm:editForm,key:key});	
+		return new AuthViewResult(loggedUser, {editForm:editForm,key:key});
 	}
-    private var loggedUser:model.User;
 
-    public override function onAuthorization(filterContext) {
-
-        loggedUser=code.DatabaseAuthAdapter.requireAuthorization("/login", filterContext);
-
-    }
 }

@@ -12,21 +12,25 @@ class Page extends sys.db.Object,	implements Persistent{
     }
 
 	@autoform({
-		"widget" : "html"
+        title : "Page Content",
+		widget : "html",
+        validation: "![new code.SafeHtmlValidator()]"
 	})
 	public var content:SText;
 
+
+
 	@autoform({
-		"title" : "Title",
-        "validation": "![new thx.validation.StringLengthValidator(1, 100)]"
+		title : "Title",
+        validation: "![new thx.validation.StringLengthValidator(1, 100)]"
 	})
 	public var title:SString<100>;
 
+    @:relation(author_id)
 	@autoform({
 		"title" : "Author" 
 	})
-    @:relation(author_id)
-	public var author:User;
+    public var author:User;
 
 	public var id:SId;
 
@@ -38,5 +42,13 @@ class Page extends sys.db.Object,	implements Persistent{
     "validation": "![new thx.validation.StringLengthValidator(1, 200)]"
     })
     public var tags:SString<200>;
+
+
+    @autoform({
+    "title" : "Date"
+
+    })
+    public var date:SDateTime;
+
 
 }

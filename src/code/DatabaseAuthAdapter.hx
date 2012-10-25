@@ -29,22 +29,33 @@ class DatabaseAuthAdapter implements ufront.auth.IAuthAdapter<Dynamic>{
 	public var password:String;
 	public var username:String;
 
+
+    public static function getLoggedUser(filterContext:ufront.web.mvc.AuthorizationContext):model.User {
+
+        var sessionStorage = new ufront.auth.storage.SessionStorage(filterContext.controllerContext.httpContext.session);
+        var auth = new ufront.auth.Auth(sessionStorage);
+        var identity = auth.getIdentity();
+
+        if(identity == null) {
+
+            return null;
+        } else
+        {
+            var name:String=identity.username;
+            return model.User.manager.search($username==name).first();
+        }
+
+
+    }
 	
 	public static function requireAuthorization(redirectToUrl:String, filterContext:ufront.web.mvc.AuthorizationContext):model.User {
 
-        var sessionStorage = new ufront.auth.storage.SessionStorage(filterContext.controllerContext.httpContext.session);
-		var auth = new ufront.auth.Auth(sessionStorage);
-		var identity = auth.getIdentity();
+        var user=getLoggedUser(filterContext);
 
-		if(identity == null) {
+		if(user == null)
 			filterContext.result = new ufront.web.mvc.RedirectResult(redirectToUrl);
-            return null;
-        } else
-            {
-                var name:String=identity.username;
-                return model.User.manager.search($username==name).first();
-            }
 
+        return user;
 
 	}
 	
